@@ -1,38 +1,42 @@
+import os
 import time
 import json
-import random
 import requests
-from datetime import datetime
 
-# Function to generate random percentages
-def generate_random_percentage():
-    return round(random.uniform(0, 100), 2)
+# Configuration
+EVENT_GRID_ENDPOINT = "https://sensordata.brazilsouth-1.eventgrid.azure.net/api/events"
+EVENT_GRID_KEY = os.getenv("EVENT_GRID_KEY")  # Event Grid access key from environment variable
 
-# Function to create the event data
-def create_event():
-    event = {
-        "sensor-id": "abc123",
-        "medium-A-fraction": generate_random_percentage(),
-        "medium-B-fraction": generate_random_percentage(),
-        "eventTime": datetime.utcnow().isoformat()
-    }
-    return event
+def send_event():
+    if not EVENT_GRID_KEY:
+        raise ValueError("Missing EVENT_GRID_KEY environment variable")
 
-# Function to send the event to Azure Event Grid
-def send_event(event):
-    url = "https://sensordata.brazilsouth-1.eventgrid.azure.net/api/events"
     headers = {
         "Content-Type": "application/json",
-        "aeg-sas-key": "wRKmb5zv94LLQRFSCyxPICbDKCO24NTmLyV4tOSNegBHHYk314g3JQQJ99BAACZoyfiXJ3w3AAABAZEGDLMN"  # Replace with your Event Grid key
+        "aeg-sas-key": "wRKmb5zv94LLQRFSCyxPICbDKCO24NTmLyV4tOSNegBHHYk314g3JQQJ99BAACZoyfiXJ3w3AAABAZEGDLMN"
     }
-    response = requests.post(url, headers=headers, data=json.dumps([event]))
-    if response.status_code == 200:
-        print("Event sent successfully")
-    else:
-        print(f"Failed to send event: {response.status_code}, {response.text}")
 
-# Main loop to generate and send events every 5 seconds
-while True:
-    event = create_event()
-    send_event(event)
-    time.sleep(5)
+    # Event data
+    event = [{
+        "id": str(int(time.time() * 1000)),
+        "subject": "sample-event",
+        "eventType": "Sample.Created",
+        "eventTime": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "data": {
+            "message": "This is a sample event.",
+            "value": 42
+        },
+        "dataVersion": "1.0"
+    }]
+
+    try:
+        response = requests.post(EVENT_GRID_ENDPOINT, headers=headers, data=json.dumps(event))
+        response.raise_for_status()
+        print(f"Event sent successfully: {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f"Failed to send event: {e}")
+
+if __name__ == "__main__":
+    while True:
+        send_event()
+        time.sleep(5)
