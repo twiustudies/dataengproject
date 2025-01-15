@@ -5,7 +5,7 @@ import requests
 
 # Configuration
 EVENT_GRID_ENDPOINT = "https://sensordata.brazilsouth-1.eventgrid.azure.net/api/events"
-EVENT_GRID_KEY = os.getenv("EVENT_GRID_KEY")  # Event Grid access key from environment variable
+EVENT_GRID_KEY = "wRKmb5zv94LLQRFSCyxPICbDKCO24NTmLyV4tOSNegBHHYk314g3JQQJ99BAACZoyfiXJ3w3AAABAZEGDLMN"  # Event Grid access key from environment variable
 
 def send_event():
     if not EVENT_GRID_KEY:
@@ -13,7 +13,7 @@ def send_event():
 
     headers = {
         "Content-Type": "application/json",
-        "aeg-sas-key": "wRKmb5zv94LLQRFSCyxPICbDKCO24NTmLyV4tOSNegBHHYk314g3JQQJ99BAACZoyfiXJ3w3AAABAZEGDLMN"
+        "aeg-sas-key": EVENT_GRID_KEY
     }
 
     # Event data
