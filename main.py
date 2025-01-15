@@ -45,7 +45,7 @@ def index():
     return "Event generator is running."
 
 
-@app.before_first_request
+@app.before_request
 def start_event_generator():
     from threading import Thread
 
