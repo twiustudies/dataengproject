@@ -16,6 +16,11 @@ def send_event():
     if not EVENT_GRID_KEY:
         raise ValueError("Missing EVENT_GRID_KEY environment variable")
 
+    headers = {
+        "Content-Type": "application/json",
+        "aeg-sas-key": EVENT_GRID_KEY,
+    }
+
     # Calculate "fraction medium A" first
     fraction_medium_A = round(random.uniform(33, 35), 2)
     # Calculate "fraction medium B" as the remainder to make the total 100
@@ -35,19 +40,12 @@ def send_event():
         }
     ]
 
-    # Convert the event to JSON
-    event_json = json.dumps(event)
-
-    # Send the event to the Event Grid topic
-    url = "https://sensordata.brazilsouth-1.eventgrid.azure.net/api/events"
-    headers = {
-        "Content-Type": "application/json",
-        "aeg-sas-key": EVENT_GRID_KEY
-    }
-
-    response = requests.post(url, headers=headers, data=event_json)
-    print(response.status_code)
-    print(response.text)
+    try:
+        response = requests.post(EVENT_GRID_ENDPOINT, headers=headers, data=json.dumps(event))
+        response.raise_for_status()
+        print(f"Event sent successfully: {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f"Failed to send event: {e}")
 
 
 @app.route("/")
