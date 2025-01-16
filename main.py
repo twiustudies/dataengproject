@@ -29,7 +29,7 @@ def send_event():
     event = [
         {
             "id": str(int(time.time() * 1000)),
-            "sensor-id": "abc123",
+            "sensorid": "abc123",
             "eventTime": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "data": {
                 "fraction medium A": fraction_medium_A,
