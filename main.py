@@ -24,11 +24,9 @@ def send_event():
     event = [
         {
             "id": str(int(time.time() * 1000)),
-            "subject": "sample-event",
-            "eventType": "Sample.Created",
+            "sensor-id": "abc123",
             "eventTime": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            "data": {"message": "This is a sample event.", "value": 42},
-            "dataVersion": "1.0",
+            "data": {"fraction medium A": 34.2, "fraction medium B": 65.8}
         }
     ]
 
