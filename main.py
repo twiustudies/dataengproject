@@ -3,6 +3,7 @@ import os
 import time
 import json
 import requests
+import random
 
 app = Flask(__name__)
 
@@ -20,13 +21,20 @@ def send_event():
         "aeg-sas-key": EVENT_GRID_KEY,
     }
 
-    # Event data
+    # Calculate "fraction medium A" first
+    fraction_medium_A = round(random.uniform(33, 35), 2)
+    # Calculate "fraction medium B" as the remainder to make the total 100
+    fraction_medium_B = round(100 - fraction_medium_A, 2)
+
     event = [
         {
             "id": str(int(time.time() * 1000)),
             "sensor-id": "abc123",
             "eventTime": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            "data": {"fraction medium A": 34.2, "fraction medium B": 65.8}
+            "data": {
+                "fraction medium A": fraction_medium_A,
+                "fraction medium B": fraction_medium_B
+            }
         }
     ]
 
