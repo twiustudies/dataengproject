@@ -25,18 +25,16 @@ def send_event():
     fraction_medium_A = round(random.uniform(33, 35), 2)
     # Calculate "fraction medium B" as the remainder to make the total 100
     fraction_medium_B = round(100 - fraction_medium_A, 2)
-    eventtime = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     event = [
         {
             "id": str(int(time.time() * 1000)),
             "eventType": "SensorData",
             "subject": "sensor/abc123",
-            "eventTime": eventtime,
+            "eventTime": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "data": {
                 "sensorid": "abc123",
                 "fraction medium A": fraction_medium_A,
                 "fraction medium B": fraction_medium_B,
-                "eventTime": eventtime
             },
             "dataVersion": "1.0"
         }
