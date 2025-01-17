@@ -33,6 +33,7 @@ def send_event():
             "eventTime": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "data": {
                 "sensorid": "abc123",
+                "sampleTime": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
                 "fraction medium A": fraction_medium_A,
                 "fraction medium B": fraction_medium_B,
             },
