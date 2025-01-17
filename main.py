@@ -9,13 +9,16 @@ import logging
 # Initialize Flask application
 app = Flask(__name__)
 
+# OPTIMIZATION 1: USE LOGGING
 # Set up logging to capture log messages
 logging.basicConfig(level=logging.INFO)
 
 # Configuration: Event Grid endpoint and secret key (retrieved from environment variable)
 EVENT_GRID_ENDPOINT = "https://sensordata.brazilsouth-1.eventgrid.azure.net/api/events"
+# OPTIMIZATION 2: use application secrets to not have sensible data in the code
 EVENT_GRID_KEY = os.getenv("event-grid-key")  # Retrieve the Event Grid key from environment variable
 
+# OPTIMIZATION 3: centralize timestamp generation
 # Helper function to get the current UTC time in the required format
 def get_current_time():
     return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
@@ -70,6 +73,7 @@ def index():
     return "Event generator is running."
 
 # Health check route to confirm the service is up
+# OPTIMIZATION 4: endpoint for health check
 @app.route("/health")
 def health_check():
     return "Healthy", 200  # Return HTTP status 200 if the service is healthy
