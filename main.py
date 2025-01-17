@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO)
 # Configuration: Event Grid endpoint and secret key (retrieved from environment variable)
 EVENT_GRID_ENDPOINT = "https://sensordata.brazilsouth-1.eventgrid.azure.net/api/events"
 # OPTIMIZATION 2: use application secrets to not have sensible data in the code
-EVENT_GRID_KEY = os.getenv("EVENT_GRID_KEY")  # Retrieve the Event Grid key from environment variable
+EVENT_GRID_KEY = os.getenv("environmentVariables.EVENT_GRID_KEY")  # Retrieve the Event Grid key from environment variable
 
 # OPTIMIZATION 3: centralize timestamp generation
 # Helper function to get the current UTC time in the required format
