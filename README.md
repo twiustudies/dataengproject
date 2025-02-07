@@ -24,13 +24,6 @@ Running the Application
 ## Set the environment variable for the Event Grid key:
 
 export EVENT_GRID_KEY=<your-event-grid-key>
-## Run the Flask application:
-
-python app.py
-## Access the application:
-
-Open your web browser and navigate to http://localhost:5000. You should see the message "Event generator is running."
-Functionality
 
 ## Event Generation
 
